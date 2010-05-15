@@ -1,12 +1,14 @@
 Name:           x-tile
 Version:        1.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A GNOME panel applet to tile windows
 
 Group:          User Interface/Desktops
 License:        GPLv2+
 URL:            http://open.vitaminap.it/en/x_tile.htm
 Source0:        http://open.vitaminap.it/software/%{name}_%{version}.tar.gz
+# Fix the Icon entry in the desktop file
+Patch0:         x-tile-1.4-desktop.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  desktop-file-utils
@@ -14,7 +16,6 @@ Requires:       gnome-python2-applet
 Requires:       gnome-python2-gconf
 # Required to own /usr/lib/bonobo/servers
 Requires:       libbonobo
-Requires:       python-psutil
 BuildArch:      noarch
 
 %description
@@ -26,6 +27,7 @@ for programmers referring to documentation as they are programming.
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1 -b .desktop
 chmod a-x {glade,linux}/*
 
 # Remove shebangs
@@ -81,6 +83,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri May 14 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.4-3
+- Remove useless Requires python-psutil
+- Correct Icon entry in desktop file
+
 * Sat Apr 24 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.4-2
 - Use install instead of cp
 

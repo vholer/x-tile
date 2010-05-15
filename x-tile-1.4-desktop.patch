@@ -1,0 +1,12 @@
+diff -up x-tile/linux/x-tile.desktop.orig x-tile/linux/x-tile.desktop
+--- x-tile/linux/x-tile.desktop.orig	2010-03-05 19:00:11.000000000 +0100
++++ x-tile/linux/x-tile.desktop	2010-05-14 13:57:40.539114708 +0200
+@@ -6,7 +6,7 @@ Comment[it]=Piastrellamento delle Finest
+ Comment[ru]=Мозаичное размещение окон на рабочем столе
+ Comment[zh_TW]=在你的桌面排列視窗
+ Exec=x-tile --without-panel
+-Icon=/usr/share/pixmaps/x-tile.svg
++Icon=x-tile
+ Terminal=false
+ Type=Application
+ StartupNotify=true
