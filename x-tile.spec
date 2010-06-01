@@ -1,6 +1,6 @@
 Name:           x-tile
 Version:        1.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A GNOME panel applet to tile windows
 
 Group:          User Interface/Desktops
@@ -80,6 +80,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jun  2 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-2
+- Bump release
+
 * Wed Jun  2 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-1
 - Update to 1.5
 - Drop x-tile-1.4-desktop.patch patches
