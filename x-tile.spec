@@ -40,18 +40,22 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -Dp -m 0755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
-install -Dp -m 0644  linux/%{name}.server $RPM_BUILD_ROOT%{_prefix}/lib/bonobo/servers/%{name}.server
-install -Dp -m 0644  linux/%{name}.svg $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.svg
-install -Dp -m 0644 linux/%{name}.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+install -Dpm 0755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
+install -Dpm 0644  linux/%{name}.server $RPM_BUILD_ROOT%{_prefix}/lib/bonobo/servers/%{name}.server
+install -Dpm 0644  linux/%{name}.svg $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.svg
+install -Dpm 0644 linux/%{name}.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
-for file in glade/*.{glade,png,svg}; do
+pushd glade
+for file in *.{glade,png,svg}; do
   install -Dpm 0644 $file $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/$file
 done
+popd
 
-for file in modules/*.py; do
+pushd modules
+for file in *.py; do
 install -Dp -m 0644 $file $RPM_BUILD_ROOT%{_datadir}/%{name}/modules/$file
 done
+popd
 
 install -d $RPM_BUILD_ROOT%{_datadir}/locale
 cp -a locale/{fr,it,ru,zh_TW} $RPM_BUILD_ROOT%{_datadir}/locale
