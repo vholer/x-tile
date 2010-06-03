@@ -1,6 +1,6 @@
 Name:           x-tile
 Version:        1.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A GNOME panel applet to tile windows
 
 Group:          User Interface/Desktops
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  desktop-file-utils
 Requires:       gnome-python2-applet
 Requires:       gnome-python2-gconf
-# Required to own /usr/lib/bonobo/servers
+# Owns /usr/lib/bonobo/servers
 Requires:       libbonobo
 BuildArch:      noarch
 
@@ -44,6 +44,10 @@ install -Dpm 0755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
 install -Dpm 0644  linux/%{name}.server $RPM_BUILD_ROOT%{_prefix}/lib/bonobo/servers/%{name}.server
 install -Dpm 0644  linux/%{name}.svg $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.svg
 install -Dpm 0644 linux/%{name}.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+desktop-file-install \
+  --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
+  $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+
 
 pushd glade
 for file in *.{glade,png,svg}; do
@@ -80,12 +84,15 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun  3 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-3
+- Add call to desktop-file-install
+
 * Wed Jun  2 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-2
 - Bump release
 
 * Wed Jun  2 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-1
 - Update to 1.5
-- Drop x-tile-1.4-desktop.patch patches
+- Drop x-tile-1.4-desktop.patch patch
 
 * Fri May 14 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.4-3
 - Remove useless Requires python-psutil
