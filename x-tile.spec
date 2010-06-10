@@ -83,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Jun  3 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5.2-1
+* Thu Jun 10 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5.2-1
 - Update to 1.5.2
 
 * Wed Jun  2 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-2
