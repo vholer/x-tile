@@ -1,12 +1,12 @@
 Name:           x-tile
-Version:        1.5
-Release:        3%{?dist}
+Version:        1.5.2
+Release:        1%{?dist}
 Summary:        A GNOME panel applet to tile windows
 
 Group:          User Interface/Desktops
 License:        GPLv2+
 URL:            http://open.vitaminap.it/en/x_tile.htm
-Source0:        http://open.vitaminap.it/software/%{name}_%{version}.tar.gz
+Source0:        http://open.vitaminap.it/software/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  desktop-file-utils
@@ -43,10 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 install -Dpm 0755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
 install -Dpm 0644  linux/%{name}.server $RPM_BUILD_ROOT%{_prefix}/lib/bonobo/servers/%{name}.server
 install -Dpm 0644  linux/%{name}.svg $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.svg
-install -Dpm 0644 linux/%{name}.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 desktop-file-install \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+  linux/%{name}.desktop
 
 
 pushd glade
@@ -84,8 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Jun  3 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-3
-- Add call to desktop-file-install
+* Thu Jun  3 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5.2-1
+- Update to 1.5.2
 
 * Wed Jun  2 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-2
 - Bump release
