@@ -1,12 +1,16 @@
+%if ! (0%{?fedora} > 12)
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%endif
+
 Name:           x-tile
-Version:        1.5.2
+Version:        1.8.2
 Release:        1%{?dist}
-Summary:        A GNOME panel applet to tile windows
+Summary:        A GNOME panel applet to tile windows in different ways
 
 Group:          User Interface/Desktops
 License:        GPLv2+
-URL:            http://open.vitaminap.it/en/x_tile.htm
-Source0:        http://open.vitaminap.it/software/%{name}-%{version}.tar.gz
+URL:            http://www.giuspen.com/x-tile/
+Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  desktop-file-utils
@@ -26,42 +30,29 @@ for programmers referring to documentation as they are programming.
 %prep
 %setup -q
 
-# Remove shebangs
-for file in modules/*.py; do
-  sed -i.orig -e 1d $file && \
-  touch -r $file.orig $file && \
-  rm $file.orig
-done
+# Remove import of cons module in setup.py, only needed to get the current
+# version of x-tile and supported languages. The cons module calls the gtk one,
+# which needs a running graphical session
+sed -i "\|import cons|d; s|cons.VERSION|\"%{version}\"|" setup.py
+LANGUAGES=$(sed -n "s/^AVAILABLE_LANGS = //p" modules/cons.py)
+sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
+
+# Fix permissions
+chmod 0644 glade/*.svg linux/*
 
 
 %build
+%{__python} setup.py build
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%{__python} setup.py install \
+  --skip-build \
+  --root $RPM_BUILD_ROOT
 
-install -Dpm 0755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
-install -Dpm 0644  linux/%{name}.server $RPM_BUILD_ROOT%{_prefix}/lib/bonobo/servers/%{name}.server
-install -Dpm 0644  linux/%{name}.svg $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.svg
-desktop-file-install \
-  --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  linux/%{name}.desktop
-
-
-pushd glade
-for file in *.{glade,png,svg}; do
-  install -Dpm 0644 $file $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/$file
-done
-popd
-
-pushd modules
-for file in *.py; do
-install -Dp -m 0644 $file $RPM_BUILD_ROOT%{_datadir}/%{name}/modules/$file
-done
-popd
-
-install -d $RPM_BUILD_ROOT%{_datadir}/locale
-cp -a locale/{fr,it,ru,zh_TW} $RPM_BUILD_ROOT%{_datadir}/locale
+# Remove useless header x-tile.glade.h
+rm $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/x-tile.glade.h
 
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
@@ -74,16 +65,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc license readme
+%doc license
 %{_bindir}/*
 %{_datadir}/%{name}
 %{_datadir}/applications/*.desktop
 %{_datadir}/pixmaps/*.svg
 %{_prefix}/lib/bonobo/servers/*.server
+%{python_sitelib}/*.egg-info
 
 
 %changelog
-* Thu Jun 10 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5.2-1
+* Tue Nov 09 2010 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.2-1
+- Update to 1.8.2 (no more manual installation, setup.py provided by this
+  version)
+
+* Thu Jun  3 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5.2-1
 - Update to 1.5.2
 
 * Wed Jun  2 2010 ELMORABITY Mohamed <melmorabity@fedoraproject.org> 1.5-2
