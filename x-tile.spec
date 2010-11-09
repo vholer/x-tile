@@ -4,7 +4,7 @@
 
 Name:           x-tile
 Version:        1.8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A GNOME panel applet to tile windows in different ways
 
 Group:          User Interface/Desktops
@@ -14,6 +14,7 @@ Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  desktop-file-utils
+BuildRequires:  python2
 Requires:       gnome-python2-applet
 Requires:       gnome-python2-gconf
 # Owns /usr/lib/bonobo/servers
@@ -75,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Nov 09 2010 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.2-2
+- Add missing BuildRequires python2
+
 * Tue Nov 09 2010 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.2-1
 - Update to 1.8.2 (no more manual installation, setup.py provided by this
   version)
