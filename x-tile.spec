@@ -3,8 +3,8 @@
 %endif
 
 Name:           x-tile
-Version:        1.8.2
-Release:        2%{?dist}
+Version:        1.8.3
+Release:        1%{?dist}
 Summary:        A GNOME panel applet to tile windows in different ways
 
 Group:          User Interface/Desktops
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 22 2010 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.3-1
+- Update to 1.8.3
+
 * Tue Nov 09 2010 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.2-2
 - Add missing BuildRequires python2
 
