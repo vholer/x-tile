@@ -3,7 +3,7 @@
 %endif
 
 Name:           x-tile
-Version:        1.8.3
+Version:        1.8.4
 Release:        1%{?dist}
 Summary:        A GNOME panel applet to tile windows in different ways
 
@@ -16,9 +16,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  desktop-file-utils
 BuildRequires:  python2
 Requires:       gnome-python2-applet
-Requires:       gnome-python2-gconf
 # Owns /usr/lib/bonobo/servers
 Requires:       libbonobo
+Requires:       %{name}-common = %{version}-%{release}
 BuildArch:      noarch
 
 %description
@@ -26,6 +26,38 @@ X-tile is a GNOME applet for your panel (or optionally a standalone application)
 that allows you to select a number of windows and tile them in different
 ways. This is especially useful for comparing products in separate web pages, or
 for programmers referring to documentation as they are programming.
+
+
+%package common
+Summary:        X-tile common files
+Group:          User Interface/Desktops
+Requires:       gnome-python2-gconf
+Requires:       pygtk2
+BuildArch:      noarch
+
+%description common
+X-tile is a GNOME applet for your panel (or optionally a standalone application)
+that allows you to select a number of windows and tile them in different
+ways. This is especially useful for comparing products in separate web pages, or
+for programmers referring to documentation as they are programming.
+
+This package contains all the common files needed by x-tile or x-tile-ng.
+
+
+%package ng
+Summary:        A GTK application to tile windows in different ways
+Group:          User Interface/Desktops
+Requires:       %{name}-common = %{version}-%{release}
+BuildArch:      noarch
+
+%description ng
+X-tile is a GNOME applet for your panel (or optionally a standalone application)
+that allows you to select a number of windows and tile them in different
+ways. This is especially useful for comparing products in separate web pages, or
+for programmers referring to documentation as they are programming.
+
+This package contains a desktop-independent version of X-tile, which doesn't
+require the GNOME panel and works only without the applet
 
 
 %prep
@@ -52,10 +84,12 @@ rm -rf $RPM_BUILD_ROOT
   --skip-build \
   --root $RPM_BUILD_ROOT
 
-# Remove useless header x-tile.glade.h
-rm $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/x-tile.glade.h
+# Install x-tile-ng executable and desktop file
+install -Dp %{name}-ng $RPM_BUILD_ROOT%{_bindir}/%{name}-ng
+install -Dpm 0644 linux/%{name}-ng.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}-ng.desktop
 
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}-ng.desktop
 
 %find_lang %{name}
 
@@ -64,18 +98,33 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 rm -rf $RPM_BUILD_ROOT
 
 
-%files -f %{name}.lang
+%files
+%defattr(-,root,root,-)
+%{_bindir}/%{name}
+%{_datadir}/applications/%{name}.desktop
+%{_prefix}/lib/bonobo/servers/*.server
+
+
+%files -f %{name}.lang common
 %defattr(-,root,root,-)
 %doc license
-%{_bindir}/*
 %{_datadir}/%{name}
-%{_datadir}/applications/*.desktop
 %{_datadir}/pixmaps/*.svg
-%{_prefix}/lib/bonobo/servers/*.server
 %{python_sitelib}/*.egg-info
 
 
+%files ng
+%defattr(-,root,root,-)
+%{_bindir}/%{name}-ng
+%{_datadir}/applications/%{name}-ng.desktop
+
+
 %changelog
+* Wed Dec 08 2010 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.4-1
+- Update to 1.8.4
+- Split x-tile into three packages: x-tile-common, x-tile (GNOME application)
+  and x-tile-ng (desktop-independant application)
+
 * Mon Nov 22 2010 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.3-1
 - Update to 1.8.3
 
