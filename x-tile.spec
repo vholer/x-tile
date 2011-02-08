@@ -4,7 +4,7 @@
 
 Name:           x-tile
 Version:        1.8.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A GNOME panel applet to tile windows in different ways
 
 Group:          User Interface/Desktops
@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.8.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Wed Dec 08 2010 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.4-1
 - Update to 1.8.4
 - Split x-tile into three packages: x-tile-common, x-tile (GNOME application)
