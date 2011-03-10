@@ -1,20 +1,16 @@
-%if ! (0%{?fedora} > 12)
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%endif
-
 Name:           x-tile
-Version:        1.8.4
-Release:        2%{?dist}
+Version:        1.8.5
+Release:        1%{?dist}
 Summary:        A GNOME panel applet to tile windows in different ways
 
 Group:          User Interface/Desktops
 License:        GPLv2+
 URL:            http://www.giuspen.com/x-tile/
 Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  desktop-file-utils
-BuildRequires:  python2
+BuildRequires:  gettext
+BuildRequires:  python-setuptools
 Requires:       gnome-python2-applet
 # Owns /usr/lib/bonobo/servers
 Requires:       libbonobo
@@ -70,32 +66,27 @@ sed -i "\|import cons|d; s|cons.VERSION|\"%{version}\"|" setup.py
 LANGUAGES=$(sed -n "s/^AVAILABLE_LANGS = //p" modules/cons.py)
 sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
 
-# Fix permissions
-chmod 0644 glade/*.svg linux/*
-
 
 %build
-%{__python} setup.py build
+%{__python} -c 'import setuptools; execfile("setup.py")' build
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install \
-  --skip-build \
+  --no-compile \
   --root $RPM_BUILD_ROOT
 
-# Install x-tile-ng executable and desktop file
-install -Dp %{name}-ng $RPM_BUILD_ROOT%{_bindir}/%{name}-ng
-install -Dpm 0644 linux/%{name}-ng.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}-ng.desktop
+%{__python} setup.py --no-panel-applet install \
+  --no-compile \
+  --root $RPM_BUILD_ROOT
+
+# Remove useless header
+rm $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/x-tile.glade.h
 
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}-ng.desktop
 
 %find_lang %{name}
-
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 
 %files
@@ -120,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 10 2011 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.5-1
+- Update to 1.8.5
+
 * Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.8.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
