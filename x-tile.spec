@@ -1,5 +1,5 @@
 Name:           x-tile
-Version:        1.8.5
+Version:        1.8.6
 Release:        1%{?dist}
 Summary:        A GNOME panel applet to tile windows in different ways
 
@@ -57,7 +57,7 @@ require the GNOME panel and works only without the applet
 
 
 %prep
-%setup -q
+%setup -q -n %{name}_%{version}
 
 # Remove import of cons module in setup.py, only needed to get the current
 # version of x-tile and supported languages. The cons module calls the gtk one,
@@ -68,7 +68,7 @@ sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
 
 
 %build
-%{__python} -c 'import setuptools; execfile("setup.py")' build
+%{__python} setup.py build
 
 
 %install
@@ -79,9 +79,6 @@ sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
 %{__python} setup.py --no-panel-applet install \
   --no-compile \
   --root $RPM_BUILD_ROOT
-
-# Remove useless header
-rm $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/x-tile.glade.h
 
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}-ng.desktop
@@ -111,6 +108,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}-ng.desktop
 
 
 %changelog
+* Thu Mar 17 2011 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.6-1
+- Update to 1.8.6
+
 * Thu Mar 10 2011 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.8.5-1
 - Update to 1.8.5
 
