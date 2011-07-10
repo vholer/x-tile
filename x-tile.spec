@@ -1,5 +1,5 @@
 Name:           x-tile
-Version:        1.9
+Version:        2.0
 Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
@@ -42,18 +42,14 @@ sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
 
 
 %install
-# Only the "ng" version is provided since the GNOME 2 applets are no longer
-%{__python} setup.py --no-panel-applet install \
+%{__python} setup.py install \
   --no-compile \
   --root $RPM_BUILD_ROOT
-
-# Link to former x-tile executable to x-tile-ng
-ln -s %{name}-ng $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 # Remove useless header
 rm $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/*.h
 
-desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}-ng.desktop
+desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 %find_lang %{name}
 
@@ -62,14 +58,18 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}-ng.desktop
 %defattr(-,root,root,-)
 %doc license
 %{_bindir}/%{name}
-%{_bindir}/%{name}-ng
 %{_datadir}/%{name}
-%{_datadir}/applications/%{name}-ng.desktop
+%{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/*.svg
 %{python_sitelib}/*.egg-info
 
 
 %changelog
+* Sun Jul 10 2011 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.0-1
+- Update to 2.0
+- There is now a single version of x-tile (no more "ng" version), since x-tile
+  sets now an icon in the notification zone
+
 * Sun Jun 26 2011 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.9-1
 - Update to 1.9
 - Only provide the "no applet" version of x-tile since the applet is no loger
