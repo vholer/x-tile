@@ -1,5 +1,5 @@
 Name:           x-tile
-Version:        2.1
+Version:        2.2
 Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
@@ -46,9 +46,6 @@ sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
   --no-compile \
   --root $RPM_BUILD_ROOT
 
-# Remove useless header
-rm $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/*.h
-
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 %find_lang %{name}
@@ -65,6 +62,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jan 03 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.2-1
+- Update to 2.2
+
 * Tue Jul 19 2011 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.1-1
 - Update to 2.1
 
