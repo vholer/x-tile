@@ -1,6 +1,6 @@
 Name:           x-tile
 Version:        2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
 Group:          User Interface/Desktops
@@ -62,6 +62,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Tue Jan 03 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.2-1
 - Update to 2.2
 
