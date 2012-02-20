@@ -1,6 +1,6 @@
 Name:           x-tile
-Version:        2.2
-Release:        2%{?dist}
+Version:        2.2.1
+Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
 Group:          User Interface/Desktops
@@ -15,8 +15,8 @@ Requires:       gnome-python2-gconf
 Requires:       pygtk2
 Provides:       %{name}-common = %{version}-%{release}
 Provides:       %{name}-ng = %{version}-%{release}
-Obsoletes:      %{name}-common < %{version}-%{release}
-Obsoletes:      %{name}-ng < %{version}-%{release}
+Obsoletes:      %{name}-common < 2.2.1
+Obsoletes:      %{name}-ng < 2.2.1
 BuildArch:      noarch
 
 %description
@@ -52,7 +52,6 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc license
 %{_bindir}/%{name}
 %{_datadir}/%{name}
@@ -62,6 +61,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Mon Feb 20 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.2.1-1
+- Update to 2.2.1
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
