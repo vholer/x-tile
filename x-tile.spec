@@ -1,22 +1,18 @@
 Name:           x-tile
-Version:        2.2.1
+Version:        2.3.1
 Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
 Group:          User Interface/Desktops
 License:        GPLv2+
 URL:            http://www.giuspen.com/x-tile/
-Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.gz
+Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.bz2
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  python-setuptools
 Requires:       gnome-python2-gconf
 Requires:       pygtk2
-Provides:       %{name}-common = %{version}-%{release}
-Provides:       %{name}-ng = %{version}-%{release}
-Obsoletes:      %{name}-common < 2.2.1
-Obsoletes:      %{name}-ng < 2.2.1
 BuildArch:      noarch
 
 %description
@@ -34,7 +30,7 @@ programming.
 # which needs a running graphical session
 sed -i "\|import cons|d; s|cons.VERSION|\"%{version}\"|" setup.py
 LANGUAGES=$(sed -n "s/^AVAILABLE_LANGS = //p" modules/cons.py)
-sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
+# sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
 
 
 %build
@@ -45,6 +41,8 @@ sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
 %{__python} setup.py install \
   --no-compile \
   --root $RPM_BUILD_ROOT
+
+rm $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/x-tile.glade.h
 
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
@@ -61,6 +59,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Jul 14 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.3.1-1
+- Update to 2.3.1
+- Remove useless Provides/Obsoletes
+
 * Mon Feb 20 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.2.1-1
 - Update to 2.2.1
 
