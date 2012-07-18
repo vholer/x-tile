@@ -1,5 +1,5 @@
 Name:           x-tile
-Version:        2.3.1
+Version:        2.4
 Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
@@ -26,11 +26,9 @@ programming.
 %setup -q
 
 # Remove import of cons module in setup.py, only needed to get the current
-# version of x-tile and supported languages. The cons module calls the gtk one,
-# which needs a running graphical session
+# version of x-tile. The cons module calls the gtk one, which needs a running
+# graphical session
 sed -i "\|import cons|d; s|cons.VERSION|\"%{version}\"|" setup.py
-LANGUAGES=$(sed -n "s/^AVAILABLE_LANGS = //p" modules/cons.py)
-# sed -i "s|cons.AVAILABLE_LANGS|$LANGUAGES|" setup.py
 
 
 %build
@@ -49,25 +47,41 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %find_lang %{name}
 
 
+%post
+/bin/touch --no-create %{_datadir}/icons/hicolor/ &>/dev/null || :
+
+
+%postun
+if [ $1 -eq 0 ] ; then
+  /bin/touch --no-create %{_datadir}/icons/hicolor/ &>/dev/null
+  /usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor/ &>/dev/null || :
+fi
+
+
+%posttrans
+/usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor/ &>/dev/null || :
+
+
 %files -f %{name}.lang
 %doc license
 %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/*.svg
+%{_datadir}/icons/hicolor/*/apps/%{name}.svg
 %{python_sitelib}/*.egg-info
+%{_mandir}/man1/%{name}.1.*
 
 
 %changelog
+* Wed Jul 18 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.4-1
+- Update to 2.4
+
 * Sat Jul 14 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.3.1-1
 - Update to 2.3.1
 - Remove useless Provides/Obsoletes
 
 * Mon Feb 20 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.2.1-1
 - Update to 2.2.1
-
-* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
 * Tue Jan 03 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.2-1
 - Update to 2.2
