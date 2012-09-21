@@ -1,12 +1,12 @@
 Name:           x-tile
-Version:        2.4
+Version:        2.5
 Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
 Group:          User Interface/Desktops
 License:        GPLv2+
 URL:            http://www.giuspen.com/x-tile/
-Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.bz2
+Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
@@ -73,6 +73,9 @@ fi
 
 
 %changelog
+* Thu Sep 20 2012 Mohamed El Morabity <melmorabity@fedorapeople.org> - 2.5-1
+- Update to 2.5
+
 * Wed Jul 18 2012 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.4-1
 - Update to 2.4
 
