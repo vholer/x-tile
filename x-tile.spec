@@ -1,6 +1,6 @@
 Name:           x-tile
 Version:        2.5
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
 Group:          User Interface/Desktops
@@ -46,22 +46,6 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 %find_lang %{name}
 
-
-%post
-/bin/touch --no-create %{_datadir}/icons/hicolor/ &>/dev/null || :
-
-
-%postun
-if [ $1 -eq 0 ] ; then
-  /bin/touch --no-create %{_datadir}/icons/hicolor/ &>/dev/null
-  /usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor/ &>/dev/null || :
-fi
-
-
-%posttrans
-/usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor/ &>/dev/null || :
-
-
 %files -f %{name}.lang
 %doc license
 %{_bindir}/%{name}
@@ -73,6 +57,9 @@ fi
 
 
 %changelog
+* Thu Jan 18 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 2.5-9
+- Remove obsolete scriptlets
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
