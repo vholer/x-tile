@@ -1,6 +1,6 @@
 Name:           x-tile
 Version:        2.5
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
 Group:          User Interface/Desktops
@@ -10,7 +10,7 @@ Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
-BuildRequires:  python-setuptools
+BuildRequires:  python2-setuptools
 Requires:       gnome-python2-gconf
 Requires:       pygtk2
 BuildArch:      noarch
@@ -57,6 +57,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Mon Feb 05 2018 Iryna Shcherbina <ishcherb@redhat.com> - 2.5-10
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Thu Jan 18 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 2.5-9
 - Remove obsolete scriptlets
 
