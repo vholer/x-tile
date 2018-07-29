@@ -52,7 +52,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.svg
-%{python_sitelib}/*.egg-info
+%{python2_sitelib}/*.egg-info
 %{_mandir}/man1/%{name}.1.*
 
 
