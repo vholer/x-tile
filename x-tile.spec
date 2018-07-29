@@ -32,7 +32,7 @@ sed -i "\|import cons|d; s|cons.VERSION|\"%{version}\"|" setup.py
 
 
 %build
-%{__python} setup.py build
+%py2_build
 
 
 %install
