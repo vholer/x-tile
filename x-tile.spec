@@ -1,15 +1,15 @@
 Name:           x-tile
-Version:        2.5
-Release:        12%{?dist}
+Version:        2.5.1
+Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
-Group:          User Interface/Desktops
 License:        GPLv2+
 URL:            http://www.giuspen.com/x-tile/
 Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
+BuildRequires:  pygtk2
 BuildRequires:  python2-setuptools
 Requires:       gnome-python2-gconf
 Requires:       pygtk2
@@ -23,31 +23,27 @@ programming.
 
 
 %prep
-%setup -q
-
-# Remove import of cons module in setup.py, only needed to get the current
-# version of x-tile. The cons module calls the gtk one, which needs a running
-# graphical session
-sed -i "\|import cons|d; s|cons.VERSION|\"%{version}\"|" setup.py
+%autosetup
 
 
 %build
+mkdir -p build/scripts-%{python2_version}/
 %py2_build
 
 
 %install
-%{__python} setup.py install \
-  --no-compile \
-  --root $RPM_BUILD_ROOT
-
-rm $RPM_BUILD_ROOT%{_datadir}/%{name}/glade/x-tile.glade.h
-
-desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+%py2_install
+install -Dpm 0755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 %find_lang %{name}
 
+
+%check
+desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+
+
 %files -f %{name}.lang
-%doc license
+%license license
 %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
@@ -57,6 +53,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Fri Aug 03 2018 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.5.1-1
+- Update to 2.5.1
+- Spec cleanup
+
 * Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
