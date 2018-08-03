@@ -10,7 +10,7 @@ Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.xz
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  pygtk2
-BuildRequires:  python2-setuptools
+BuildRequires:  python2-devel
 Requires:       gnome-python2-gconf
 Requires:       pygtk2
 BuildArch:      noarch
