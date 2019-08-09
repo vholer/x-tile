@@ -1,17 +1,18 @@
 Name:           x-tile
-Version:        2.5.1
-Release:        3%{?dist}
+Version:        2.6
+Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
 License:        GPLv2+
-URL:            http://www.giuspen.com/x-tile/
+URL:            http://www.giuspen.com/%{name}/
 Source0:        http://www.giuspen.com/software/%{name}-%{version}.tar.xz
+Source1:        %{name}.appdata.xml
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
+BuildRequires:  libappstream-glib
 BuildRequires:  pygtk2
 BuildRequires:  python2-devel
-Requires:       gnome-python2-gconf
 Requires:       pygtk2
 BuildArch:      noarch
 
@@ -34,12 +35,14 @@ mkdir -p build/scripts-%{python2_version}/
 %install
 %py2_install
 install -Dpm 0755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
+install -Dpm 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_metainfodir}/%{name}.appdata.xml
 
 %find_lang %{name}
 
 
 %check
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/%{name}.appdata.xml
 
 
 %files -f %{name}.lang
@@ -50,9 +53,14 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.svg
 %{python2_sitelib}/*.egg-info
 %{_mandir}/man1/%{name}.1.*
+%{_metainfodir}/%{name}.appdata.xml
 
 
 %changelog
+* Fri Aug 09 2019 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.6-1
+- Update to 2.6
+- Add AppData file
+
 * Sat Jul 27 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
