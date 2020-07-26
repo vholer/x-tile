@@ -1,5 +1,5 @@
 Name:           x-tile
-Version:        2.6
+Version:        3.1
 Release:        1%{?dist}
 Summary:        A GTK application to tile windows in different ways
 
@@ -11,9 +11,10 @@ Source1:        %{name}.appdata.xml
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  libappstream-glib
-BuildRequires:  pygtk2
-BuildRequires:  python2-devel
-Requires:       pygtk2
+BuildRequires:  python3-devel
+Requires:       gtk3
+Requires:       python3-gobject
+Requires:       librsvg2
 BuildArch:      noarch
 
 %description
@@ -28,12 +29,12 @@ programming.
 
 
 %build
-mkdir -p build/scripts-%{python2_version}/
-%py2_build
+mkdir -p build/scripts-%{python3_version}/
+%py3_build
 
 
 %install
-%py2_install
+%py3_install
 install -Dpm 0755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
 install -Dpm 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_metainfodir}/%{name}.appdata.xml
 
@@ -51,12 +52,15 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/%{name}.app
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.svg
-%{python2_sitelib}/*.egg-info
+%{python3_sitelib}/*.egg-info
 %{_mandir}/man1/%{name}.1.*
 %{_metainfodir}/%{name}.appdata.xml
 
 
 %changelog
+* Fri Aug 09 2019 Vlastimil Holer <vlastimil.holer@gmail.com> - 3.1-1
+- Update to 3.1
+
 * Fri Aug 09 2019 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.6-1
 - Update to 2.6
 - Add AppData file
